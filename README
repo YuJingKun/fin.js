@@ -1,0 +1,18 @@
+fin.js
+
+Financial calculations made easy
+
+About
+fin.js is a javascript library that helps perform various financial calculations.
+
+Dependencies
+underscore.js
+
+Todo
+Add support for all common financial functions found in spreadsheet programs such as LibreOffice Calc.
+
+Contribution
+Volunteers are welcome to contribute to this project in any way.
+
+License
+You are free to do whatever you want as long as the copyright header is left intact.
