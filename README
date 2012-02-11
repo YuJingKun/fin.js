@@ -2,17 +2,21 @@ fin.js
 
 Financial calculations made easy
 
-About
+ABOUT
 fin.js is a javascript library that helps perform various financial calculations.
 
-Dependencies
-underscore.js
+DEPENDENCIES
+None, but the script is expected to be run in a browser.
 
-Todo
+TODO
 Add support for all common financial functions found in spreadsheet programs such as LibreOffice Calc.
 
-Contribution
+CONTRIBUTION
 Volunteers are welcome to contribute to this project in any way.
 
-License
+LICENSE
 You are free to do whatever you want as long as the copyright header is left intact.
+
+PROGRESS
+So far, these functions have been added:
+    NPV, IRR

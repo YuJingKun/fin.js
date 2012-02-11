@@ -14,26 +14,23 @@
 
 
 (function () {
-    /*
-    This library depends on underscore.js
-     */
     'use strict';
-    var root = this, previousFin = root.Fin, Fin = root.Fin = {}, _ = root._;
+    var root = this,
+        Fin,
+        get_precision = function (precision) {
+            /* Returns a number, i.e. 4, which will be used to truncate floating numbers */
+            return (!precision || isNaN(precision)) ? Fin.PRECISION : precision;
+        };
 
-    Fin.VERSION = '0.0.1';
+    root.Fin = Fin = {};
+
+    Fin.VERSION = '0.0.2';
     Fin.PRECISION = 4;  // floating point precision
 
-    /*
-    Runs Fin.js in noConflict mode and
-    returns reference to this Fin object
-     */
-    Fin.noConflict = function () {
-        root.Fin = previousFin;
-        return this;
-    };
 
     /*
     NPV - Net Present Value
+
     rate = the periodic discount rate
         example: If the discount rate is 10% enter 0.1, not 10.
     payments = an array or object (keys are the year numbers) of payments
@@ -42,35 +39,53 @@
         the end of the period two.
         If you pass {0: -100, 2:50}, then the payment at the end of the
         year one is assumed to be 0.
+    precision (optional, default = Fin.PRECISION) = any integer between 0 and 10
      */
     Fin.npv = function (rate, payments, precision) {
-        if (isNaN(rate)) {
-            /* rate needs to be a number */
-            return null;
-        }
-        if (_.isArray(payments)) {
-            /* all elements of the array need to be numbers */
-            if (!_.all(payments, function (elem) { return !isNaN(elem); })) {
-                return null;
-            }
-        } else if (_.isObject(payments)) {
-            /* all key, value pairs of the object need to be numbers */
-            if (!_.all(payments, function (key, value) { return !isNaN(key) && !isNaN(value); })) {
-                return null;
-            }
-        } else {
-            /* payment needs to be either an array or an object */
-            return null;
-        }
-        if (typeof (precision) === 'undefined' || isNaN(precision)) {
-            precision = this.PRECISION;
-        }
-        var i, npv = 0;
+        var i,
+            npv = 0;
+
+        precision = get_precision(precision);
+
         for (i in payments) {
             if (payments.hasOwnProperty(i)) {
-                npv += payments[i] / Math.pow((1 + rate), i);
+                npv += payments[i] * Math.pow((1 + rate), -i);
             }
         }
+
         return npv.toFixed(precision);
     };
-}).call(this);
+
+    /*
+    IRR - Internal Rate of Return, by definition: NPV(IRR) = 0
+    Uses Newton Raphson Method's method for solving a polynomial
+
+    payments = as described in the Fin.npv function
+    guess_rate (optional, default = 0.1) = the estimated IRR value
+        Use a reasonable guess rate, otherwise you may get a wrong answer
+        See test cases for an example
+    precision = as described in the Fin.npv function
+     */
+    Fin.irr = function (payments, guess_rate, precision) {
+        var i,
+            irr,
+            payments_derivative = {};
+
+        precision = get_precision(precision);
+        irr = (!guess_rate || isNaN(guess_rate)) ? 0.1 : guess_rate;
+
+        for (i in payments) {
+            if (payments.hasOwnProperty(i)) {
+                payments_derivative[parseInt(i) + 1] = -i * payments[i];
+            }
+        }
+
+        do {
+            guess_rate = irr;
+            irr = guess_rate - this.npv(guess_rate, payments) / this.npv(guess_rate, payments_derivative);
+        } while (Math.abs(irr - guess_rate) > 0.0001);
+
+        return irr.toFixed(precision);
+    };
+
+}).call(window);
