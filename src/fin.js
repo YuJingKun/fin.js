@@ -31,15 +31,15 @@
     /*
     NPV - Net Present Value
 
-    rate = the periodic discount rate
+    rate (number) = the periodic discount rate
         example: If the discount rate is 10% enter 0.1, not 10.
-    payments = an array or object (keys are the year numbers) of payments
+    payments (array or object) = an array or object (keys are the year numbers) of payments
         example: [-100, 50, 60] means an initial cash outflow of 100 at time 0,
         then cash inflows of 50 at the end of the period one, and 60 at
         the end of the period two.
         If you pass {0: -100, 2:50}, then the payment at the end of the
         year one is assumed to be 0.
-    precision (optional, default = Fin.PRECISION) = any integer between 0 and 10
+    precision (optional number, default = Fin.PRECISION)
      */
     Fin.npv = function (rate, payments, precision) {
         var i,
@@ -61,7 +61,7 @@
     Uses Newton Raphson Method's method for solving a polynomial
 
     payments = as described in the Fin.npv function
-    guess_rate (optional, default = 0.1) = the estimated IRR value
+    guess_rate (optional number, default = 0.1) = the estimated IRR value
         Use a reasonable guess rate, otherwise you may get a wrong answer
         See test cases for an example
     precision = as described in the Fin.npv function
