@@ -88,4 +88,24 @@
         return irr.toFixed(precision);
     };
 
+    /*
+    PV - Present Value
+
+    rate (number) = as described in the Fin.npv function
+    periods (number) = the number of period
+    fv = the future value
+    precision = as described in the Fin.npv function
+     */
+    Fin.pv = function (rate, periods, fv, precision) {
+        var payments = {};
+
+        payments[periods] = fv;
+
+        return Fin.npv(rate, payments, precision);
+    };
+
 }).call(window);
+
+/*
+ * TODO: improve the documentation. Instead of saying 'as described in the Fin.npv function', describe the function parameters in place
+ */

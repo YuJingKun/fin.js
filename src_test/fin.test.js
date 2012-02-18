@@ -1,5 +1,6 @@
 npvTest = TestCase("npvTest");
 irrTest = TestCase("irrTest");
+pvTest = TestCase("pvTest");
 
 npvTest.prototype.testNpv = function () {
     /* array tests */
@@ -25,5 +26,12 @@ irrTest.prototype.testIrr = function () {
     assertEquals(0.4696, Fin.irr({1: -2000, 3: 5000, 4: -1000}));
     /* the following test will fail for a guess with values 0.24 or higher */
     assertEquals(-0.1017, Fin.irr({0: 100, 1: 400, 3: 50, 4: -400}, 0.23));
+};
+
+pvTest.prototype.testPv = function () {
+    assertEquals(620.92, Fin.pv(0.1, 5, 1000, 2));
+    assertEquals(207.2892, Fin.pv(0.05, 20, 550));
+    assertEquals(1000, Fin.pv(1, 0, 1000));
+    assertEquals(500, Fin.pv(1, 1, 1000));
 };
 
