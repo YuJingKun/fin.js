@@ -104,6 +104,24 @@
         return Fin.npv(rate, payments, precision);
     };
 
+
+    /*
+     FV - Future Value
+
+     rate (number) = as described in the Fin.npv function
+     periods (number) = the number of period
+     pv = the present value
+     precision = as described in the Fin.npv function
+     */
+    Fin.fv = function (rate, periods, pv, precision) {
+        var fv;
+
+        precision = get_precision(precision);
+
+        fv = pv * Math.pow((1 + rate), periods);
+
+        return fv.toFixed(precision);
+    };
 }).call(window);
 
 /*

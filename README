@@ -19,4 +19,4 @@ You are free to do whatever you want as long as the copyright header is left int
 
 PROGRESS
 So far these functions have been added:
-    NPV, IRR, PV
+    NPV, IRR, PV, FV

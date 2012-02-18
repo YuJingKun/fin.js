@@ -1,6 +1,7 @@
 npvTest = TestCase("npvTest");
 irrTest = TestCase("irrTest");
 pvTest = TestCase("pvTest");
+fvTest = TestCase("fvTest");
 
 npvTest.prototype.testNpv = function () {
     /* array tests */
@@ -33,5 +34,12 @@ pvTest.prototype.testPv = function () {
     assertEquals(207.2892, Fin.pv(0.05, 20, 550));
     assertEquals(1000, Fin.pv(1, 0, 1000));
     assertEquals(500, Fin.pv(1, 1, 1000));
+};
+
+fvTest.prototype.testFv = function () {
+    assertEquals(812.7501, Fin.fv(0.03, 20, 450));
+    assertEquals(100, Fin.fv(0, 5, 100));
+    assertEquals(2, Fin.fv(1, 1, 1));
+    assertEquals(1483.965, Fin.fv(0.05, 2, 1346));
 };
 
